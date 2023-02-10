@@ -1,0 +1,21 @@
+---
+- name: install jq and zip
+  apt: name={{ item }} state=present
+  with_items:
+    - jq
+    - zip
+- name: packages | ensure apt list dir exists
+  file:
+    path: /var/lib/apt/lists/
+    state: directory
+    mode: 0755
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400
+- name: install moreutils
+  apt:
+          name: moreutils
+          state: present
